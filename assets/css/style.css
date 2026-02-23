@@ -1,0 +1,320 @@
+body{
+    background-color: #ccc;
+    font-family: "Arial", sans-serif;
+    font-size: 1rem;
+    color: #545454;
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+a{
+    color: #d50032;
+    font-weight: bold;
+    text-decoration: none;
+}
+h1>span{
+    color: #d50032;
+}
+
+/** ======================================================================
+    Login page and Register page styles
+====================================================================== **/
+#login, #register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+#login .container,
+#register .container{
+    width: 640px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#login .container .title,
+#register .container .title{
+    background-color: #d50032;
+    color: #fff;
+    padding: .5rem 0;
+    text-align: center;
+    border-radius: 5px 5px 0 0;
+}
+#login .container .title h1>span,
+#register .container .title h1>span{
+    color: #fff;
+    text-transform: uppercase;
+}
+#login .container .content,
+#register .container .content{
+    padding: 1rem;
+    text-align: center;
+}
+#login .container .content form,
+#register .container .content form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 0 5rem;
+}
+#login .container .content form .control-form,
+#register .container .content form .control-form{
+    margin-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#login .container .content form .control-form label,
+#login .container .content form .control-form input,
+#register .container .content form .control-form label,
+#register .container .content form .control-form input{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+#login .container .content form .control-form input,
+#register .container .content form .control-form input{
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    margin-top: .5rem;
+}
+#login .container .content form .control-form input:focus,
+#register .container .content form .control-form input:focus{
+    outline: none;
+}
+#login .container .content form button[type="submit"],
+#register .container .content form button[type="submit"]{
+    background-color: #545454;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#login .container .content form button[type="submit"]:hover,
+#register .container .content form button[type="submit"]:hover{
+    background-color: #d50032;
+}
+#login .container .footer,
+#register .container .footer{
+    text-align: center;
+    padding: 1rem 0;
+    border-top: 1px solid #ccc;
+}
+
+/** ======================================================================
+    Board page style
+====================================================================== **/
+#board{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+#board header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4rem;
+    background-color: #fff;
+    color: #545454;
+}
+#board header h1{
+    margin: 0;
+    text-transform: uppercase;
+}
+#board header button{
+    background-color: #545454;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#board header button:hover{
+    background-color: #d50032;
+}
+#board .container{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+#board .container #todo{
+    width: 600px;
+    height: 75vh;
+    margin-top: 5rem;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+#board .container #todo #todo-header{
+    background-color: #d50032;
+}
+#board .container #todo #todo-header h2{
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0;
+}
+#board .container #todo #todo-header button{
+    background-color: #ccc;
+    color: #545454;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#board .container #todo #todo-header button:hover{
+    background-color: #fff;
+    color: #d50032;
+}
+#board .container #todo #todo-content{
+    overflow-y: auto;
+    height: 100%;
+}
+#board .container #todo #todo-content #task-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#board .container #todo #todo-content #task-list .task-item{
+    height: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #ccc;
+}
+#board .container #todo #todo-content #task-list .task-item:last-child{
+    border-bottom: none;
+}
+#board .container #todo #todo-content #task-list .task-item label{
+    flex-grow: 1;
+}
+#board .container #todo #todo-content #task-list .task-item .status{
+    background-color: #ccc;
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+}
+#board .container #todo #todo-content #task-list .task-item .status.status-todo{
+    background-color: #2980b9;
+}
+#board .container #todo #todo-content #task-list .task-item .status.status-doing{
+    background-color: #f39c12;
+}
+#board .container #todo #todo-content #task-list .task-item .status.status-done{
+    background-color: #1abc9c;
+}
+#board .container #todo #todo-content #task-list .task-item button{
+    background-color: transparent;
+    color: #ccc;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#board .container #todo #todo-content #task-list .task-item button.edit-task-button:hover{
+    color: #545454;
+}
+#board .container #todo #todo-content #task-list .task-item button.delete-task-button:hover{
+    color: #d50032;
+}
+#board .container #todo #todo-content #task-list .task-item button i{
+    font-size: 1.2rem;
+}
+
+/** ======================================================================
+    Modal styles
+====================================================================== **/
+#background-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    display: none;
+}
+#task-modal{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+#task-modal .modal{
+    width: 600px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#task-modal .modal .modal-header{
+    background-color: #d50032;
+    color: #fff;
+    padding: 1em 2rem;
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#task-modal .modal .modal-header h2{
+    margin: 0;
+}
+#task-modal .modal .modal-header button{
+    background-color: transparent;
+    color: #ccc;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#task-modal .modal .modal-header button:hover{
+    color: #fff;
+}
+#task-modal .modal .modal-body{
+    padding: 2rem;
+    background-color: #fff;
+}
+#task-modal .modal .modal-body form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+}
+#task-modal .modal .modal-body form input{
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+#task-modal .modal .modal-body form input:focus{
+    border-color: #d50032;
+}
+#task-modal .modal .modal-body form button{
+    background-color: #ccc;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#task-modal .modal .modal-body form button:hover{
+    background-color: #545454;
+}

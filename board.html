@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Todozed - Tableau de bord</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <link rel="stylesheet" href="./assets/css/style.css">
+    </head>
+    <body>
+        <div id="board">
+            <header>
+                <h1>Todo<span>zed</span></h1>
+                <button id="logout-button"><i class="fas fa-sign-out-alt"></i>Se déconnecter</button>
+            </header>
+
+            <main class="container">
+
+                <div id="todo">
+                    <header id="todo-header">
+                        <h2>Tâches</h2>
+                        <button id="add-task-button"><i class="fas fa-plus"></i></button>
+                    </header>
+
+                    <div id="todo-content">
+                        <ul id="task-list"></ul>
+                    </div>
+
+                </div>                
+
+            </main>
+
+        </div>
+        
+        <!-- Modal -->
+        <div id="background-modal"></div>
+        <div id="task-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Ajouter une tâche</h2>
+                    <button id="close-modal-button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="task-form">
+                        <input type="text" id="task-input" placeholder="Saisissez votre tâche..." required>
+                        <button type="submit" disabled="disabled">Ajouter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End of Modal -->
+
+        <!-- Template task item -->
+        <template id="task-item-template">
+            <li class="task-item">
+                <label></label>
+                <span class="status"></span>
+                <button class="edit-task-button"><i class="fas fa-edit"></i></button>
+                <button class="delete-task-button"><i class="fas fa-trash"></i></button>
+            </li>
+        </template>
+        <!-- End of Template task item -->
+
+    </body>
+</html>
