@@ -11,7 +11,7 @@
         <div id="board">
             <header>
                 <h1>Todo<span>zed</span></h1>
-                <button id="logout-button"><i class="fas fa-sign-out-alt"></i>Se déconnecter</button>
+                <button type="button" id="logout-button"><i class="fas fa-sign-out-alt"></i>Se déconnecter</button>
             </header>
 
             <main class="container">
@@ -19,7 +19,7 @@
                 <div id="todo">
                     <header id="todo-header">
                         <h2>Tâches</h2>
-                        <button id="add-task-button"><i class="fas fa-plus"></i></button>
+                        <button type="button" id="add-task-button"><i class="fas fa-plus"></i></button>
                     </header>
 
                     <div id="todo-content">
@@ -34,32 +34,77 @@
         
         <!-- Modal -->
         <div id="background-modal"></div>
-        <div id="task-modal">
-            <div class="modal">
+        <div class="modal"></div>
+        <!-- End of Modal -->
+
+        <!-- Template Modal - Add task -->
+        <template id="add-task-modal-template">
+            <div class="modal-container">
                 <div class="modal-header">
                     <h2>Ajouter une tâche</h2>
-                    <button id="close-modal-button"><i class="fas fa-times"></i></button>
+                    <button type="button" class="close-modal-button"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal-body">
-                    <form id="task-form">
+                    <form id="add-task-form">
                         <input type="text" id="task-input" placeholder="Saisissez votre tâche..." required>
-                        <button type="submit" disabled="disabled">Ajouter</button>
+                        <button type="submit">Ajouter</button>
                     </form>
                 </div>
             </div>
-        </div>
-        <!-- End of Modal -->
+        </template>
+        <!-- End of Template Modal - Add task -->
+
+        <!-- Modal - Edit task -->
+        <template id="edit-task-modal-template">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Modifier la tâche</h2>
+                    <button type="button" class="close-edit-modal-button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-task-form">
+                        <input type="text" id="edit-task-input" required>
+                        <select id="edit-task-status">
+                            <option value="todo">À faire</option>
+                            <option value="doing">En cours</option>
+                            <option value="done">Terminée</option>
+                        </select>
+                        <button type="submit">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </template>
+        <!-- End of Template Modal - Edit task -->
+
+        <!-- Modal - Delete task -->
+        <template id="delete-task-modal-template">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Supprimer la tâche</h2>
+                    <button type="button" class="close-delete-modal-button"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer cette tâche ?</p>
+                    <button id="confirm-delete-button">Oui, supprimer</button>
+                    <button id="cancel-delete-button">Non, annuler</button>
+                </div>
+            </div>
+        </template>
+        <!-- End of Template Modal - Delete task -->
 
         <!-- Template task item -->
         <template id="task-item-template">
             <li class="task-item">
                 <label></label>
                 <span class="status"></span>
-                <button class="edit-task-button"><i class="fas fa-edit"></i></button>
-                <button class="delete-task-button"><i class="fas fa-trash"></i></button>
+                <button type="button" class="edit-task-button"><i class="fas fa-edit"></i></button>
+                <button type="button" class="delete-task-button"><i class="fas fa-trash"></i></button>
             </li>
         </template>
         <!-- End of Template task item -->
 
+        <script src="./assets/js/auth.js"></script>
+        <script src="./assets/js/app.js"></script>
+        
     </body>
 </html>

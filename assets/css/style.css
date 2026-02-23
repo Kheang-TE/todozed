@@ -151,7 +151,8 @@ h1>span{
 }
 #board .container #todo{
     width: 600px;
-    height: 75vh;
+    min-height: 5rem;
+    max-height: 75vh;
     margin-top: 5rem;
     background-color: #fff;
     border-radius: 5px;
@@ -247,23 +248,19 @@ h1>span{
     background-color: rgba(0, 0, 0, 0.65);
     display: none;
 }
-#task-modal{
+.modal{
     display: none;
-    justify-content: center;
-    align-items: center;
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
+    left: calc(50% - 300px);
+    top: calc(50% - 150px);
 }
-#task-modal .modal{
+.modal .modal-container{
     width: 600px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-#task-modal .modal .modal-header{
+.modal .modal-container .modal-header{
     background-color: #d50032;
     color: #fff;
     padding: 1em 2rem;
@@ -272,41 +269,42 @@ h1>span{
     justify-content: space-between;
     align-items: center;
 }
-#task-modal .modal .modal-header h2{
+.modal .modal-container .modal-header h2{
     margin: 0;
 }
-#task-modal .modal .modal-header button{
+.modal .modal-container .modal-header button{
     background-color: transparent;
     color: #ccc;
+    padding: 0.5rem 1rem;
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
-#task-modal .modal .modal-header button:hover{
+.modal .modal-container .modal-header button:hover{
     color: #fff;
 }
-#task-modal .modal .modal-body{
+.modal .modal-container .modal-body{
     padding: 2rem;
     background-color: #fff;
 }
-#task-modal .modal .modal-body form{
+.modal .modal-container .modal-body form{
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: .5rem;
 }
-#task-modal .modal .modal-body form input{
+.modal .modal-container .modal-body form input{
     flex-grow: 1;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
 }
-#task-modal .modal .modal-body form input:focus{
+.modal .modal-container .modal-body form input:focus{
     border-color: #d50032;
 }
-#task-modal .modal .modal-body form button{
+.modal .modal-container .modal-body form button{
     background-color: #ccc;
     color: #fff;
     border: none;
@@ -315,6 +313,6 @@ h1>span{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-#task-modal .modal .modal-body form button:hover{
+.modal .modal-container .modal-body form button:hover{
     background-color: #545454;
 }
