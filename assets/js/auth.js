@@ -17,6 +17,8 @@ const isAuthenticated = async () => {
             if (currentPage === 'index.html' || currentPage === 'register.html') {
                 window.location.href = 'board.html';
             }
+            const data = await response.json();
+            document.querySelector('.profile .username span').textContent = data.email;
 
         } else {
 
