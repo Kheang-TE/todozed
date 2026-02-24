@@ -3,6 +3,7 @@ const isAuthenticated = async () => {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
     try {
+
         const response = await fetch('http://localhost:8000/api/me', {
             method: 'GET',
             headers: {
@@ -24,6 +25,7 @@ const isAuthenticated = async () => {
             }
 
         }
+
     } catch (error) {
 
         console.log('Error authentication:', error);
@@ -55,4 +57,6 @@ const logout = async () => {
 
 isAuthenticated();
 
-document.getElementById('logout-button').addEventListener('click', logout);
+if(document.getElementById('logout-button')){
+    document.getElementById('logout-button').addEventListener('click', logout);
+}

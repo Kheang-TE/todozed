@@ -19,6 +19,10 @@ h1>span{
     color: #d50032;
 }
 
+button i{
+    pointer-events: none;
+}
+
 /** ======================================================================
     Login page and Register page styles
 ====================================================================== **/
@@ -304,6 +308,11 @@ h1>span{
 .modal .modal-container .modal-body form input:focus{
     border-color: #d50032;
 }
+.modal .modal-container .modal-body form select{
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 .modal .modal-container .modal-body form button{
     background-color: #ccc;
     color: #fff;
@@ -315,4 +324,19 @@ h1>span{
 }
 .modal .modal-container .modal-body form button:hover{
     background-color: #545454;
+}
+.modal .modal-container .modal-body button{
+    background-color: #ccc;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.modal .modal-container .modal-body button#confirm-delete-button{
+    background-color: #1abc9c;
+}
+.modal .modal-container .modal-body button#cancel-delete-button{
+    background-color: #d50032;
 }
