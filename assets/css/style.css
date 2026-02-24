@@ -135,6 +135,11 @@ button i{
     margin: 0;
     text-transform: uppercase;
 }
+#board header .profile{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
 #board header button{
     background-color: #545454;
     color: #fff;
