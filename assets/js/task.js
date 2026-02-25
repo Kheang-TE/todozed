@@ -1,7 +1,7 @@
 class Task {
 
     constructor() {
-        this.apiUrl = 'http://localhost:8000/api';
+        this.apiUrl = AppConfig.API_URL;
         this.addTaskButton = document.getElementById('add-task-button');
         this.bgModal = document.getElementById('background-modal');
         this.modal = document.querySelector('.modal');
