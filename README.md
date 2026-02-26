@@ -106,11 +106,6 @@ todozed/
 
 ### JavaScript
 
-**`config.js`** — Configuration globale
-| Propriété   | Description                                           |
-|-------------|-------------------------------------------------------|
-| `API_URL`   | URL de l'API, auto-détectée selon l'environnement     |
-
 **`auth.js`** — Classe `Auth`
 | Méthode            | Description                                       |
 |--------------------|---------------------------------------------------|
