@@ -11,6 +11,7 @@ Interface web de gestion de tâches (todo list) construite en **HTML**, **CSS** 
 - [Fonctionnalités](#fonctionnalités)
 - [Architecture](#architecture)
 - [Configuration](#configuration)
+- [Déploiement sur Vercel](#déploiement-sur-vercel)
 
 ## Aperçu
 
@@ -93,15 +94,22 @@ todozed/
 ├── index.html          # Page de connexion
 ├── register.html       # Page d'inscription
 ├── board.html          # Tableau de bord (tâches)
+├── vercel.json         # Configuration de déploiement Vercel
 └── assets/
     ├── css/
     │   └── style.css   # Styles de l'application
     └── js/
+        ├── config.js   # Configuration globale (URL API)
         ├── auth.js     # Classe Auth (login, register, logout, session)
         └── task.js     # Classe Task (CRUD tâches, modals, rendu)
 ```
 
 ### JavaScript
+
+**`config.js`** — Configuration globale
+| Propriété   | Description                                           |
+|-------------|-------------------------------------------------------|
+| `API_URL`   | URL de l'API, auto-détectée selon l'environnement     |
 
 **`auth.js`** — Classe `Auth`
 | Méthode            | Description                                       |
@@ -126,11 +134,36 @@ todozed/
 
 ## Configuration
 
-L'URL de l'API est définie dans `assets/js/auth.js` et `assets/js/task.js` :
+L'URL de l'API est centralisée dans `assets/js/config.js` :
 
 ```javascript
-this.apiUrl = 'http://localhost:8000/api';
+const AppConfig = (() => {
+    const isLocal = window.location.hostname === 'localhost'
+                 || window.location.hostname === '127.0.0.1';
+
+    const API_URL = isLocal
+        ? 'http://localhost:8000/api'   // Développement
+        : '__API_URL__';                // Remplacé par Vercel au déploiement
+
+    return { API_URL };
+})();
 ```
+
+- **En local** : l'URL `http://localhost:8000/api` est utilisée automatiquement
+- **En production** : le placeholder `__API_URL__` est remplacé par la variable d'environnement `API_URL` configurée sur Vercel
+
+Les classes `Auth` et `Task` y accèdent via `AppConfig.API_URL`.
+
+## Déploiement sur Vercel
+
+1. Importer le dépôt sur [Vercel](https://vercel.com)
+2. Dans **Settings > Environment Variables**, ajouter :
+   | Variable  | Valeur                              |
+   |-----------|-------------------------------------|
+   | `API_URL` | `https://votre-api.example.com/api` |
+3. Déployer — Vercel exécute automatiquement la commande de build définie dans `vercel.json` qui injecte la variable dans le code
+
+> **Important** : la variable d'environnement `CORS_ALLOW_ORIGIN` du backend doit inclure l'URL du frontend Vercel (ex: `https://todozed.vercel.app`).
 
 ## Design
 
