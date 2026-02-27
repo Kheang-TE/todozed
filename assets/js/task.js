@@ -13,7 +13,10 @@ class Task {
         this.taskList = document.getElementById('task-list');
         this.buttonsFilter = document.querySelectorAll('.filter-button');
         this.sortSelect = document.querySelector('.sort');
+<<<<<<< HEAD
         this.searchInput = document.getElementById('search-input');
+=======
+>>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
     }
 
     fetchApi = async (endpoint, options = {}) => {
@@ -173,12 +176,15 @@ class Task {
         return [...tasks].sort((a, b) => b.title.localeCompare(a.title, 'fr', { sensitivity: 'base' }));
     }
 
+<<<<<<< HEAD
     searchTasks = (tasks) => {
         const query = this.searchInput.value.trim().toLowerCase();
         if (!query) return tasks;
         return tasks.filter(task => task.title.toLowerCase().includes(query));
     }
 
+=======
+>>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
     sortTasks = (tasks) => {
         const sortValue = this.sortSelect.value;
         switch(sortValue) {
@@ -213,10 +219,16 @@ class Task {
         if(this.allTasks.length === 0){
             this.allTasks = await this.getAllTasks();
         }
+<<<<<<< HEAD
 
         const filteredTasksToRender = this.filterTasks(this.allTasks);
         const searchedTasksToRender = this.searchTasks(filteredTasksToRender);
         const sortedTasksToRender = this.sortTasks(searchedTasksToRender);
+=======
+        const filteredTasksToRender = this.filterTasks(this.allTasks);
+
+        const sortedTasksToRender = this.sortTasks(filteredTasksToRender);
+>>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
 
         if(sortedTasksToRender.length > 0){
             this.taskList.innerHTML = '';
@@ -390,11 +402,14 @@ class Task {
         this.sortSelect.addEventListener('change', () => {
             this.renderTasks();
         })
+<<<<<<< HEAD
 
         // Search input
         this.searchInput.addEventListener('input', () => {
             this.renderTasks();
         })
+=======
+>>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
     }
 
     /* ==========================================================================
