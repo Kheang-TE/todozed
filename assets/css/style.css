@@ -154,15 +154,40 @@ button i{
 }
 #board .container{
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     height: 100vh;
+}
+#board .container #todo-actions{
+    width: 600px;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#board .container #todo-actions span{
+    display: block;
+    margin-bottom: 0.5rem;
+}
+#board .container #todo-actions .filter-button{
+    background-color: #fff;
+    color: #545454;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#board .container #todo-actions .filter-button.active{
+    background-color: #d50032;
+    color: #fff;
 }
 #board .container #todo{
     width: 600px;
     min-height: 5rem;
     max-height: 75vh;
-    margin-top: 5rem;
+    margin-top: 2rem;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
