@@ -183,6 +183,11 @@ button i{
     background-color: #d50032;
     color: #fff;
 }
+#board .container #todo-actions #todo-actions-sort select{
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 #board .container #todo{
     width: 600px;
     min-height: 5rem;
