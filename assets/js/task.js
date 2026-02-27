@@ -206,6 +206,7 @@ class Task {
         if(this.allTasks.length === 0){
             this.allTasks = await this.getAllTasks();
         }
+        console.log(this.allTasks);
         const filteredTasksToRender = this.filterTasks(this.allTasks);
 
         const sortedTasksToRender = this.sortTasks(filteredTasksToRender);
@@ -255,6 +256,9 @@ class Task {
             // Create the task in the backend
             const newTask = await this.createTask({title: taskInput.value});
 
+            // Add the new task to the list of all tasks
+            this.allTasks.unshift(newTask.task);
+
             // Create the task item in the DOM
             const taskFragment = this.taskItemTemplate.content.cloneNode(true);
             const taskItem = taskFragment.querySelector('.task-item');
@@ -265,6 +269,9 @@ class Task {
             taskStatusSpan.textContent = this.taskStatusSelect(newTask.task.status);
             taskStatusSpan.classList.add(`status-${newTask.task.status}`);
             this.taskList.prepend(taskItem);
+
+            // Render tasks to apply filters and sorting
+            this.renderTasks();
 
             this.closeModal();
         });
@@ -294,6 +301,12 @@ class Task {
             const updatedTitle = modalContainer.querySelector('#edit-task-input').value;
             const updatedStatus = modalContainer.querySelector('#edit-task-status').value;
             const updatedTask = await this.editTask(taskId, {title: updatedTitle, status: updatedStatus});
+
+            // Update the task in the list of all tasks
+            const taskIndex = this.allTasks.findIndex(task => task.id === updatedTask.task.id);
+            if (taskIndex > -1) { // If the task is found in the list, update it
+                this.allTasks[taskIndex] = updatedTask.task;
+            }
 
             // Update the task item in the DOM
             taskElement.querySelector('label').textContent = updatedTask.task.title;
