@@ -158,10 +158,10 @@ button i{
     justify-content: flex-start;
     align-items: center;
     height: 100vh;
+    padding: 2rem 0;
 }
 #board .container #todo-actions{
     width: 600px;
-    margin-top: 2rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -221,7 +221,7 @@ button i{
 }
 #board .container #todo #todo-content{
     overflow-y: auto;
-    height: 100%;
+    height: calc(100% - 65px);
 }
 #board .container #todo #todo-content #task-list{
     list-style: none;
