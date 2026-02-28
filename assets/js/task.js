@@ -12,6 +12,7 @@ class Task {
         this.modalDeleteTaskTemplate = document.getElementById(`delete-task-modal-template`);
         this.taskList = document.getElementById('task-list');
         this.buttonsFilter = document.querySelectorAll('.filter-button');
+        this.sortSelect = document.querySelector('.sort');
     }
 
     fetchApi = async (endpoint, options = {}) => {
@@ -140,6 +141,53 @@ class Task {
         return ["all"]; // Default filter is "all"
     }
 
+    filterTasks = (tasks) => {
+        const filteredTasksToRender = [];
+        const currentFilter = this.getFilteredTasks();
+        if(currentFilter.includes("all")){
+            filteredTasksToRender.push(...this.allTasks);
+        } else {
+            this.allTasks.forEach( task => {
+                if(currentFilter.includes(task.status)){
+                    filteredTasksToRender.push(task);
+                }
+            });
+        }
+        return filteredTasksToRender;
+    }
+
+    sortByDateAsc = (tasks) => {
+        return [...tasks].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    }
+
+    sortByDateDesc = (tasks) => {
+        return [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    sortByTitleAsc = (tasks) => {
+        return [...tasks].sort((a, b) => a.title.localeCompare(b.title, 'fr', { sensitivity: 'base' }));
+    }
+
+    sortByTitleDesc = (tasks) => {
+        return [...tasks].sort((a, b) => b.title.localeCompare(a.title, 'fr', { sensitivity: 'base' }));
+    }
+
+    sortTasks = (tasks) => {
+        const sortValue = this.sortSelect.value;
+        switch(sortValue) {
+            case 'date-asc':
+                return this.sortByDateAsc(tasks);
+            case 'date-desc':
+                return this.sortByDateDesc(tasks);
+            case 'title-asc':
+                return this.sortByTitleAsc(tasks);
+            case 'title-desc':
+                return this.sortByTitleDesc(tasks);
+            default:
+                return tasks;
+        }
+    }
+
     renderButtonFilter = () => {
         const currentFilter = this.getFilteredTasks();
 
@@ -158,21 +206,14 @@ class Task {
         if(this.allTasks.length === 0){
             this.allTasks = await this.getAllTasks();
         }
-        const tasksToRender = [];
-        const currentFilter = this.getFilteredTasks();
-        if(currentFilter.includes("all")){
-            tasksToRender.push(...this.allTasks);
-        } else {
-            this.allTasks.forEach( task => {
-                if(currentFilter.includes(task.status)){
-                    tasksToRender.push(task);
-                }
-            });
-        }
+        console.log(this.allTasks);
+        const filteredTasksToRender = this.filterTasks(this.allTasks);
 
-        if(tasksToRender.length > 0){
+        const sortedTasksToRender = this.sortTasks(filteredTasksToRender);
+
+        if(sortedTasksToRender.length > 0){
             this.taskList.innerHTML = '';
-            tasksToRender.forEach( task => {
+            sortedTasksToRender.forEach( task => {
                 const taskFragment = this.taskItemTemplate.content.cloneNode(true);
                 const taskItem = taskFragment.querySelector('.task-item');
                 const taskStatus = taskItem.querySelector('span');
@@ -215,6 +256,9 @@ class Task {
             // Create the task in the backend
             const newTask = await this.createTask({title: taskInput.value});
 
+            // Add the new task to the list of all tasks
+            this.allTasks.unshift(newTask.task);
+
             // Create the task item in the DOM
             const taskFragment = this.taskItemTemplate.content.cloneNode(true);
             const taskItem = taskFragment.querySelector('.task-item');
@@ -225,6 +269,9 @@ class Task {
             taskStatusSpan.textContent = this.taskStatusSelect(newTask.task.status);
             taskStatusSpan.classList.add(`status-${newTask.task.status}`);
             this.taskList.prepend(taskItem);
+
+            // Render tasks to apply filters and sorting
+            this.renderTasks();
 
             this.closeModal();
         });
@@ -254,6 +301,12 @@ class Task {
             const updatedTitle = modalContainer.querySelector('#edit-task-input').value;
             const updatedStatus = modalContainer.querySelector('#edit-task-status').value;
             const updatedTask = await this.editTask(taskId, {title: updatedTitle, status: updatedStatus});
+
+            // Update the task in the list of all tasks
+            const taskIndex = this.allTasks.findIndex(task => task.id === updatedTask.task.id);
+            if (taskIndex > -1) { // If the task is found in the list, update it
+                this.allTasks[taskIndex] = updatedTask.task;
+            }
 
             // Update the task item in the DOM
             taskElement.querySelector('label').textContent = updatedTask.task.title;
@@ -324,6 +377,11 @@ class Task {
             button.addEventListener('click', (e) => {
                 this.setTaskFilter(e.target.dataset.filter);
             })
+        })
+
+        // Sort select
+        this.sortSelect.addEventListener('change', () => {
+            this.renderTasks();
         })
     }
 
