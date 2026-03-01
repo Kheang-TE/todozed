@@ -14,9 +14,13 @@ class Task {
         this.buttonsFilter = document.querySelectorAll('.filter-button');
         this.sortSelect = document.querySelector('.sort');
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.searchInput = document.getElementById('search-input');
 =======
 >>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
+=======
+        this.searchInput = document.getElementById('search-input');
+>>>>>>> 19fb24d (feat: search function and display searched tasks)
     }
 
     fetchApi = async (endpoint, options = {}) => {
@@ -177,14 +181,20 @@ class Task {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 19fb24d (feat: search function and display searched tasks)
     searchTasks = (tasks) => {
         const query = this.searchInput.value.trim().toLowerCase();
         if (!query) return tasks;
         return tasks.filter(task => task.title.toLowerCase().includes(query));
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
+=======
+>>>>>>> 19fb24d (feat: search function and display searched tasks)
     sortTasks = (tasks) => {
         const sortValue = this.sortSelect.value;
         switch(sortValue) {
@@ -221,6 +231,7 @@ class Task {
         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         const filteredTasksToRender = this.filterTasks(this.allTasks);
         const searchedTasksToRender = this.searchTasks(filteredTasksToRender);
@@ -233,6 +244,12 @@ class Task {
 
         const sortedTasksToRender = this.sortTasks(filteredTasksToRender);
 >>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
+=======
+
+        const filteredTasksToRender = this.filterTasks(this.allTasks);
+        const searchedTasksToRender = this.searchTasks(filteredTasksToRender);
+        const sortedTasksToRender = this.sortTasks(searchedTasksToRender);
+>>>>>>> 19fb24d (feat: search function and display searched tasks)
 
         if(sortedTasksToRender.length > 0){
             this.taskList.innerHTML = '';
@@ -407,13 +424,19 @@ class Task {
             this.renderTasks();
         })
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 19fb24d (feat: search function and display searched tasks)
 
         // Search input
         this.searchInput.addEventListener('input', () => {
             this.renderTasks();
         })
+<<<<<<< HEAD
 =======
 >>>>>>> 0e13fb6 (feat: sort functionnality | factorization: renderTasks method for filtering)
+=======
+>>>>>>> 19fb24d (feat: search function and display searched tasks)
     }
 
     /* ==========================================================================
