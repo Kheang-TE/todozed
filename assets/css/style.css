@@ -160,6 +160,33 @@ button i{
     height: 100vh;
     padding: 2rem 0;
 }
+#board .container #todo-search{
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+#board .container #todo-search #todo-search-container{
+    flex-grow: 1;
+    position: relative;
+}
+#board .container #todo-search #todo-search-container i{
+    position: absolute;
+    left: 1rem;
+    top: calc(50% - 8px);
+    color: #545454;
+    pointer-events: none;
+}
+#board .container #todo-search #todo-search-container #search-input{
+    width: calc(100% - 3rem);
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    margin-left: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
 #board .container #todo-actions{
     width: 600px;
     display: flex;
@@ -191,7 +218,7 @@ button i{
 #board .container #todo{
     width: 600px;
     min-height: 5rem;
-    max-height: 75vh;
+    max-height: 70vh;
     margin-top: 2rem;
     background-color: #fff;
     border-radius: 5px;

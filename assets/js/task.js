@@ -13,6 +13,7 @@ class Task {
         this.taskList = document.getElementById('task-list');
         this.buttonsFilter = document.querySelectorAll('.filter-button');
         this.sortSelect = document.querySelector('.sort');
+        this.searchInput = document.getElementById('search-input');
     }
 
     fetchApi = async (endpoint, options = {}) => {
@@ -172,6 +173,12 @@ class Task {
         return [...tasks].sort((a, b) => b.title.localeCompare(a.title, 'fr', { sensitivity: 'base' }));
     }
 
+    searchTasks = (tasks) => {
+        const query = this.searchInput.value.trim().toLowerCase();
+        if (!query) return tasks;
+        return tasks.filter(task => task.title.toLowerCase().includes(query));
+    }
+
     sortTasks = (tasks) => {
         const sortValue = this.sortSelect.value;
         switch(sortValue) {
@@ -206,10 +213,10 @@ class Task {
         if(this.allTasks.length === 0){
             this.allTasks = await this.getAllTasks();
         }
-        console.log(this.allTasks);
-        const filteredTasksToRender = this.filterTasks(this.allTasks);
 
-        const sortedTasksToRender = this.sortTasks(filteredTasksToRender);
+        const filteredTasksToRender = this.filterTasks(this.allTasks);
+        const searchedTasksToRender = this.searchTasks(filteredTasksToRender);
+        const sortedTasksToRender = this.sortTasks(searchedTasksToRender);
 
         if(sortedTasksToRender.length > 0){
             this.taskList.innerHTML = '';
@@ -381,6 +388,11 @@ class Task {
 
         // Sort select
         this.sortSelect.addEventListener('change', () => {
+            this.renderTasks();
+        })
+
+        // Search input
+        this.searchInput.addEventListener('input', () => {
             this.renderTasks();
         })
     }
