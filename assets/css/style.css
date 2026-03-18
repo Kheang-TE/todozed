@@ -402,3 +402,53 @@ button i{
 .modal .modal-container .modal-body button#cancel-delete-button{
     background-color: #d50032;
 }
+
+/** ======================================================================
+    Alert styles
+====================================================================== **/
+.alert{
+    background-color: #fff;
+    border-radius: 5px;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateX(150%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.alert-visible{
+    opacity: 1;
+    transform: translateX(0);
+}
+.alert-hidden{
+    opacity: 0;
+    transform: translateX(150%);
+}
+.alert span{
+    display: block;
+    margin-right: 1rem;
+}
+.alert span i{
+    margin-right: 0.5rem;
+}
+.alert button{
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.alert-error{
+    background-color: #d50032;
+    color: #fff;
+}
+.alert-success{
+    background-color: #1abc9c;
+    color: #fff;
+}
