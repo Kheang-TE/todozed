@@ -1,0 +1,14 @@
+# =============================================================================
+# .dockerignore - Fichiers EXCLUS du contexte de build Docker (frontend)
+# Le frontend ne contient aucun secret : on exclut seulement git et la doc.
+# =============================================================================
+
+.git/
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+
+# Debug éventuel local
+node_modules/
+.vscode/
