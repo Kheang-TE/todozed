@@ -1,28 +1,21 @@
-# =============================================================================
-# Dockerfile - Frontend vanilla (todozed) en PRODUCTION
-# -----------------------------------------------------------------------------
-# Le frontend est 100% statique (HTML/CSS/JS), SANS étape de build ni Node.js.
-# On se contente de copier les fichiers dans nginx, qui :
-#   1. sert les fichiers statiques (index.html, board.html, register.html...)
-#   2. reverse-proxy les requêtes /api vers le conteneur backend "api"
-#
-# Le serveur distant ne compile rien : tout est dans ces quelques lignes.
-# =============================================================================
+# Image Nginx officielle : elle est multi-architecture et fonctionne donc
+# aussi bien sur Raspberry Pi (ARM) que sur les machines x86 classiques.
+FROM nginx:alpine
 
-# syntax=docker/dockerfile:1
+# Nom DNS Docker et port interne du service back-end ; Compose peut les remplacer.
+ENV API_HOST=api \
+    API_PORT=8000 \
+    NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates \
+    NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template \
+    NGINX_ENVSUBST_FILTER=^(API_HOST|API_PORT)$
 
-FROM nginx:1.27-alpine
-
-# --- Copier les fichiers statiques -------------------------------------------
-# On copie les 3 pages HTML directement dans la racine servie par nginx.
-COPY index.html register.html board.html /usr/share/nginx/html/
-
-# Puis le dossier assets/ (css + js) en conservant la même arborescence.
+# Copie les pages et ressources du front-end dans le répertoire servi par Nginx.
+COPY index.html board.html register.html /usr/share/nginx/html/
 COPY assets/ /usr/share/nginx/html/assets/
 
-# --- Remplacer la configuration nginx par défaut -----------------------------
-# Notre config sert les statiques ET proxifie /api vers le backend.
-COPY docker/default.conf /etc/nginx/conf.d/default.conf
+# Nginx transformera ce modèle au démarrage pour y inscrire le nom et le port
+# du service back-end indiqués dans l'environnement Docker.
+COPY docker/default.conf /etc/nginx/templates/default.conf.template
 
-# Port HTTP interne (publié sur l'hôte via docker-compose)
+# Le conteneur écoute sur le port HTTP 80, à publier derrière Caddy.
 EXPOSE 80

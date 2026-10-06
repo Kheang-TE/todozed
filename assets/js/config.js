@@ -1,23 +1,11 @@
 /**
  * Configuration globale de l'application Todozed
- * 
  * Ce fichier centralise l'URL de l'API.
- * - En local (localhost) → utilise l'API locale
- * - En production (Vercel) → utilise l'API Railway
  */
 
-const AppConfig = (() => {
+const AppConfig = {
 
-    // Détection automatique de l'environnement
-    const isLocal = window.location.hostname === 'localhost' 
-                 || window.location.hostname === '127.0.0.1';
+    // Préfixe local relayé par Nginx vers le back-end sur le réseau Docker.
+    API_BASE_PATH: '/api'
 
-    const API_URL = isLocal
-        ? 'http://localhost:8000/api'   // URL locale (développement)
-        : '__API_URL__';                // Remplacé automatiquement par Vercel au déploiement
-
-    return {
-        API_URL
-    };
-
-})();
+};

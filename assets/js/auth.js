@@ -1,7 +1,7 @@
 class Auth {
     
     constructor() {
-        this.apiUrl = AppConfig.API_URL;
+        this.apiUrl = AppConfig.API_BASE_PATH;
         this.currentPage = window.location.pathname.split('/').pop() || 'index.html';
     }
 
