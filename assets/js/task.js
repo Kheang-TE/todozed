@@ -93,7 +93,7 @@ class Task {
 
         // If "all" is selected, reset the filter to only "all"
         if(filter === "all"){
-            sessionStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
+            localStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
             this.renderTasks()
             return this.renderButtonFilter();
         }
@@ -101,7 +101,7 @@ class Task {
         // If "all" is currently selected, remove "all" and add the selected filter
         if(currentFilter.includes("all")){
             const newFilter = [filter];
-            sessionStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
+            localStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
             this.renderTasks()
             return this.renderButtonFilter();
         }
@@ -110,11 +110,11 @@ class Task {
         if(currentFilter.includes(filter)){
             const newFilter = currentFilter.filter( f => f !== filter);
             if(newFilter.length === 0){
-                sessionStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
+                localStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
                 this.renderTasks()
                 return this.renderButtonFilter();
             }
-            sessionStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
+            localStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
             this.renderTasks()
             return this.renderButtonFilter();
         } else{
@@ -122,12 +122,12 @@ class Task {
             const newFilter = [...currentFilter, filter];
             // If all filters are selected, reset the filter to only "all"
             if(newFilter.length === 3){
-                sessionStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
+                localStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
                 this.renderTasks()
                 return this.renderButtonFilter();
             } else {
-                // Otherwise, update the filter list in sessionStorage
-                sessionStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
+                // Otherwise, update the filter list in localStorage
+                localStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
                 this.renderTasks()
                 return this.renderButtonFilter();
             }
@@ -136,8 +136,8 @@ class Task {
     }
 
     getFilteredTasks = () => {
-        if(sessionStorage.getItem('todozed')){
-            return JSON.parse(sessionStorage.getItem('todozed')).filter;
+        if(localStorage.getItem('todozed')){
+            return JSON.parse(localStorage.getItem('todozed')).filter;
         }
         return ["all"]; // Default filter is "all"
     }
@@ -395,7 +395,6 @@ class Task {
         this.searchInput.addEventListener('input', () => {
             this.renderTasks();
         })
-
     }
 
     /* ==========================================================================

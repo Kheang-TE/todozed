@@ -1,11 +1,8 @@
-import Alert from './alert.js';
-
 class Auth {
     
     constructor() {
         this.apiUrl = AppConfig.API_BASE_PATH;
         this.currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        this.alert = new Alert();
     }
 
     fetchApi = async (endpoint, options = {}) => {
@@ -50,7 +47,7 @@ class Auth {
 
         } catch (error) {
 
-            this.alert.error('Error checking authentication: ' + error.message);
+            alert('Error checking authentication: ' + error.message);
 
         }
     }
@@ -62,13 +59,13 @@ class Auth {
             const response = await this.fetchApi('/logout', { method: 'POST' });
 
             if(response.ok){
+                localStorage.clear();
                 window.location.href = 'index.html';
-                sessionStorage.setItem('notification', JSON.stringify({type: 'success', message: 'Déconnexion réussie'}));
             }
 
         } catch (error){
 
-            this.alert.error('Error logging out: ' + error.message);
+            alert('Error logging out: ' + error.message);
 
         }
     }
@@ -83,7 +80,7 @@ class Auth {
         const password = formData.get('password');
 
         if(!email || !password) {
-            this.alert.error('Veuillez remplir tous les champs');
+            alert('Veuillez remplir tous les champs');
             return;
         }
 
@@ -94,15 +91,14 @@ class Auth {
 
             if (response.ok) {
                 window.location.href = 'board.html';
-                sessionStorage.setItem('todozed', JSON.stringify({"filter":["all"]}));
-                sessionStorage.setItem('notification', JSON.stringify({type: 'success', message: 'Connexion réussie'}));
+                localStorage.setItem('todozed', JSON.stringify({"filter":["all"]}));
             } else {
-                this.alert.error(data.error || data.message || 'Login failed');
+                alert(data.error || data.message || 'Login failed');
             }
 
         } catch (error) {
 
-            this.alert.error('Error logging in: ' + error.message);
+            alert('Error logging in: ' + error.message);
 
         }
     }
@@ -118,7 +114,7 @@ class Auth {
         const confirmPassword = formData.get('confirm-password');
 
         if(password !== confirmPassword) {
-            this.alert.error('Les mots de passe ne correspondent pas');
+            alert('Les mots de passe ne correspondent pas');
             return;
         }
 
@@ -129,14 +125,13 @@ class Auth {
 
             if (response.ok) {
                 window.location.href = 'index.html';
-                sessionStorage.setItem('notification', JSON.stringify({type: 'success', message: 'Inscription réussie'}));
             } else {
-                this.alert.error(data.error || data.message || 'Echec de l\'inscription');
+                alert(data.error || data.message || 'Echec de l\'inscription');
             }
             
         } catch (error) {
 
-            this.alert.error('Error registering user: ' + error.message);
+            alert('Error registering user: ' + error.message);
 
         }
     }
@@ -156,19 +151,9 @@ class Auth {
         });
     }
 
-    notification = () => {
-        const notification = sessionStorage.getItem('notification');
-        if(notification) {
-            const { type, message } = JSON.parse(notification);
-            this.alert.show(message, type);
-            sessionStorage.removeItem('notification');
-        }
-    }
-
     init = () => {
         this.isAuthenticated();
         this.initEvents();
-        this.notification();
     }
 
 }
