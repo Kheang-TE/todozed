@@ -59,6 +59,7 @@ class Auth {
             const response = await this.fetchApi('/logout', { method: 'POST' });
 
             if(response.ok){
+                localStorage.clear();
                 window.location.href = 'index.html';
             }
 
@@ -85,6 +86,7 @@ class Auth {
 
             if (response.ok) {
                 window.location.href = 'board.html';
+                localStorage.setItem('todozed', JSON.stringify({"filter":["all"]}));
             } else {
                 alert(data.error || data.message || 'Login failed');
             }

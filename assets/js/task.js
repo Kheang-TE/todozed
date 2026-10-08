@@ -2,6 +2,7 @@ class Task {
 
     constructor() {
         this.apiUrl = AppConfig.API_BASE_PATH;
+        this.allTasks = [];
         this.addTaskButton = document.getElementById('add-task-button');
         this.bgModal = document.getElementById('background-modal');
         this.modal = document.querySelector('.modal');
@@ -10,6 +11,9 @@ class Task {
         this.modalEditTaskTemplate = document.getElementById(`edit-task-modal-template`);
         this.modalDeleteTaskTemplate = document.getElementById(`delete-task-modal-template`);
         this.taskList = document.getElementById('task-list');
+        this.buttonsFilter = document.querySelectorAll('.filter-button');
+        this.sortSelect = document.querySelector('.sort');
+        this.searchInput = document.getElementById('search-input');
     }
 
     fetchApi = async (endpoint, options = {}) => {
@@ -84,13 +88,139 @@ class Task {
         }
     }
 
+    setTaskFilter = (filter) => {
+        const currentFilter = this.getFilteredTasks();
+
+        // If "all" is selected, reset the filter to only "all"
+        if(filter === "all"){
+            sessionStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
+            this.renderTasks()
+            return this.renderButtonFilter();
+        }
+
+        // If "all" is currently selected, remove "all" and add the selected filter
+        if(currentFilter.includes("all")){
+            const newFilter = [filter];
+            sessionStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
+            this.renderTasks()
+            return this.renderButtonFilter();
+        }
+
+        // If the filter is already selected, remove it from the filter list
+        if(currentFilter.includes(filter)){
+            const newFilter = currentFilter.filter( f => f !== filter);
+            if(newFilter.length === 0){
+                sessionStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
+                this.renderTasks()
+                return this.renderButtonFilter();
+            }
+            sessionStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
+            this.renderTasks()
+            return this.renderButtonFilter();
+        } else{
+            // Otherwise, add the filter to the filter list
+            const newFilter = [...currentFilter, filter];
+            // If all filters are selected, reset the filter to only "all"
+            if(newFilter.length === 3){
+                sessionStorage.setItem('todozed', JSON.stringify({"filter": ["all"]}));
+                this.renderTasks()
+                return this.renderButtonFilter();
+            } else {
+                // Otherwise, update the filter list in sessionStorage
+                sessionStorage.setItem('todozed', JSON.stringify({"filter": newFilter}));
+                this.renderTasks()
+                return this.renderButtonFilter();
+            }
+        }
+
+    }
+
+    getFilteredTasks = () => {
+        if(sessionStorage.getItem('todozed')){
+            return JSON.parse(sessionStorage.getItem('todozed')).filter;
+        }
+        return ["all"]; // Default filter is "all"
+    }
+
+    filterTasks = (tasks) => {
+        const filteredTasksToRender = [];
+        const currentFilter = this.getFilteredTasks();
+        if(currentFilter.includes("all")){
+            filteredTasksToRender.push(...this.allTasks);
+        } else {
+            this.allTasks.forEach( task => {
+                if(currentFilter.includes(task.status)){
+                    filteredTasksToRender.push(task);
+                }
+            });
+        }
+        return filteredTasksToRender;
+    }
+
+    sortByDateAsc = (tasks) => {
+        return [...tasks].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    }
+
+    sortByDateDesc = (tasks) => {
+        return [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    sortByTitleAsc = (tasks) => {
+        return [...tasks].sort((a, b) => a.title.localeCompare(b.title, 'fr', { sensitivity: 'base' }));
+    }
+
+    sortByTitleDesc = (tasks) => {
+        return [...tasks].sort((a, b) => b.title.localeCompare(a.title, 'fr', { sensitivity: 'base' }));
+    }
+
+    searchTasks = (tasks) => {
+        const query = this.searchInput.value.trim().toLowerCase();
+        if (!query) return tasks;
+        return tasks.filter(task => task.title.toLowerCase().includes(query));
+    }
+
+    sortTasks = (tasks) => {
+        const sortValue = this.sortSelect.value;
+        switch(sortValue) {
+            case 'date-asc':
+                return this.sortByDateAsc(tasks);
+            case 'date-desc':
+                return this.sortByDateDesc(tasks);
+            case 'title-asc':
+                return this.sortByTitleAsc(tasks);
+            case 'title-desc':
+                return this.sortByTitleDesc(tasks);
+            default:
+                return tasks;
+        }
+    }
+
+    renderButtonFilter = () => {
+        const currentFilter = this.getFilteredTasks();
+
+        this.buttonsFilter.forEach( button => {
+            const buttonFilter = button.dataset.filter;
+            if(currentFilter.includes(buttonFilter)){
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+
     // Render all tasks in the DOM
     renderTasks = async () => {
-        const allTasks = await this.getAllTasks();
+        if(this.allTasks.length === 0){
+            this.allTasks = await this.getAllTasks();
+        }
 
-        if(allTasks.length > 0){
-            
-            allTasks.forEach( task => {
+        const filteredTasksToRender = this.filterTasks(this.allTasks);
+        const searchedTasksToRender = this.searchTasks(filteredTasksToRender);
+        const sortedTasksToRender = this.sortTasks(searchedTasksToRender);
+
+        if(sortedTasksToRender.length > 0){
+            this.taskList.innerHTML = '';
+            sortedTasksToRender.forEach( task => {
                 const taskFragment = this.taskItemTemplate.content.cloneNode(true);
                 const taskItem = taskFragment.querySelector('.task-item');
                 const taskStatus = taskItem.querySelector('span');
@@ -133,6 +263,9 @@ class Task {
             // Create the task in the backend
             const newTask = await this.createTask({title: taskInput.value});
 
+            // Add the new task to the list of all tasks
+            this.allTasks.unshift(newTask.task);
+
             // Create the task item in the DOM
             const taskFragment = this.taskItemTemplate.content.cloneNode(true);
             const taskItem = taskFragment.querySelector('.task-item');
@@ -143,6 +276,9 @@ class Task {
             taskStatusSpan.textContent = this.taskStatusSelect(newTask.task.status);
             taskStatusSpan.classList.add(`status-${newTask.task.status}`);
             this.taskList.prepend(taskItem);
+
+            // Render tasks to apply filters and sorting
+            this.renderTasks();
 
             this.closeModal();
         });
@@ -172,6 +308,12 @@ class Task {
             const updatedTitle = modalContainer.querySelector('#edit-task-input').value;
             const updatedStatus = modalContainer.querySelector('#edit-task-status').value;
             const updatedTask = await this.editTask(taskId, {title: updatedTitle, status: updatedStatus});
+
+            // Update the task in the list of all tasks
+            const taskIndex = this.allTasks.findIndex(task => task.id === updatedTask.task.id);
+            if (taskIndex > -1) { // If the task is found in the list, update it
+                this.allTasks[taskIndex] = updatedTask.task;
+            }
 
             // Update the task item in the DOM
             taskElement.querySelector('label').textContent = updatedTask.task.title;
@@ -236,6 +378,23 @@ class Task {
                 this.openDeleteTaskModal(taskElement);
             }
         });
+
+        // Filter buttons
+        this.buttonsFilter.forEach( button => {
+            button.addEventListener('click', (e) => {
+                this.setTaskFilter(e.target.dataset.filter);
+            })
+        })
+
+        // Sort select
+        this.sortSelect.addEventListener('change', () => {
+            this.renderTasks();
+        })
+
+        // Search input
+        this.searchInput.addEventListener('input', () => {
+            this.renderTasks();
+        })
     }
 
     /* ==========================================================================
@@ -244,6 +403,7 @@ class Task {
     init = () => {
         // Load all tasks
         this.renderTasks();
+        this.renderButtonFilter();
         // Initialize event listeners
         this.initEvents();
     }
