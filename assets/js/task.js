@@ -220,11 +220,15 @@ class Task {
             this.allTasks = await this.getAllTasks();
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         const filteredTasksToRender = this.filterTasks(this.allTasks);
         const searchedTasksToRender = this.searchTasks(filteredTasksToRender);
         const sortedTasksToRender = this.sortTasks(searchedTasksToRender);
 =======
+=======
+        console.log(this.allTasks);
+>>>>>>> 2623cf3 (feat: update the method after insert new task, about editing, filtering and sorting of the new task)
         const filteredTasksToRender = this.filterTasks(this.allTasks);
 
         const sortedTasksToRender = this.sortTasks(filteredTasksToRender);
